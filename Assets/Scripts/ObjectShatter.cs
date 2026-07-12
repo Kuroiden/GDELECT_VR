@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Net;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 
@@ -9,26 +8,36 @@ public class ObjectShatter : MonoBehaviour
     Vector3 ObjectVelocity;
 
     public bool isReleased = false;
-    [SerializeField][Range(0f, 3f)] float BreakagePoint; [Space]
+    [Tooltip("Weight or density of the whole object")]
+    [SerializeField] [Range(0.1f,25f)] float Mass;
+    [Tooltip("Ceiling of how much force (velocity) the whole object can take before breaking")]
+    [SerializeField][Range(0.1f, 25f)] float BreakagePoint; [Space]
+    [Tooltip("How fragile the whole object is (0.1 = Breaks on contact; 10 = Durable)")]
+    [SerializeField][Range(0.1f, 10f)] float Fragility; [Space]
 
     [SerializeField] List<GameObject> ObjectPieces;
 
     [Header("Piece Properties")]
-    [SerializeField] [Range(0.1f,25f)] float Mass;
-    [SerializeField] [Range(0f,8f)] float LinearDampening;
-    [SerializeField] [Range(0f,8f)] float AngularDampening;
+    [Tooltip("Degree of dampening every piece to linear motion (0 = No dampening; 50 max)")]
+    [SerializeField] [Range(0f,50f)] float LinearDampening;
+    [Tooltip("Degree of dampening every piece to rotation (0 = Free rotation; 50 max)")]
+    [SerializeField] [Range(0f,50f)] float AngularDampening;
 
     void Awake()
     {
         MainRB = GetComponent<Rigidbody>();
+
+        // Automatically adjusts rigidbody parameters
         MainRB.mass = Mass;
+        MainRB.interpolation = RigidbodyInterpolation.Interpolate;
+        MainRB.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
 
         for (int i = 0; i < transform.childCount; i++)
         {
             ObjectPieces.Add(transform.GetChild(i).gameObject);
         }
 
-        Debug.Log($"Pieces found in {this.gameObject.name}: {ObjectPieces.Count}");
+        Debug.Log($"Pieces found in <color=#00ff88>{this.gameObject.name}</color>: {ObjectPieces.Count}");
     }
 
     void Update()
@@ -64,35 +73,56 @@ public class ObjectShatter : MonoBehaviour
 
                 CollisionVelocity = ColliderLinearVelocity != Vector3.zero ? ColliderLinearVelocity : ColliderAngularVelocity != Vector3.zero ? ColliderAngularVelocity : Vector3.zero;
 
+                Debug.Log($"<color=#ffff00><color=#00ffff>{collision.collider.name}</color> collided with <color=#00ff88>{this.gameObject.name}</color> (Velocity: {CollisionVelocity})</color>");
+
                 if (ColliderLinearVelocity.x <= BreakagePoint && ColliderLinearVelocity.y <= BreakagePoint && ColliderLinearVelocity.z <= BreakagePoint)
                     ColliderMovement = false;
                 if (ColliderAngularVelocity.x <= BreakagePoint && ColliderAngularVelocity.y <= BreakagePoint && ColliderAngularVelocity.z <= BreakagePoint)
                     ColliderMovement = false;
 
-                if (ColliderMovement) goto BreakObject;
+                LowerBreakagePoint(CollisionVelocity);
+
+                if (ColliderMovement) BreakObject();
                 else return; // Returns if the breakable is not hit hard enough
             }
             else return; // Returns if the breakable is at rest and nothing hits it
         }
 
-        Debug.Log($"{this.gameObject.name} collided with {collision.collider.name} (Velocity: {ObjectVelocity})");
+        Debug.Log($"<color=#ff8800><color=#00ff88>{this.gameObject.name}</color> collided with <color=#00ffff>{collision.collider.name}</color> (Velocity: {ObjectVelocity})</color>");
 
         // Check if breakble is dropped high or thrown hard enough
-        if (ObjectVelocity.x <= BreakagePoint && ObjectVelocity.y <= BreakagePoint && ObjectVelocity.z <= BreakagePoint) return;
+        if (ObjectVelocity.x <= BreakagePoint && ObjectVelocity.y <= BreakagePoint && ObjectVelocity.z <= BreakagePoint) LowerBreakagePoint(ObjectVelocity);
+        else BreakObject();
+    }
 
-        // Break apart breakbable
-        BreakObject:
+    // Lower object breakage point with every collision
+    void LowerBreakagePoint(Vector3 Velocity)
+    {
+        float forceApplied = 0f;
+
+        if (Velocity != Vector3.zero) forceApplied = Mathf.Max(Velocity.x, Velocity.y, Velocity.z);
+
+        BreakagePoint -= (forceApplied / Fragility);
+        if (BreakagePoint < 0f) BreakagePoint = 0f;
+    }
+
+    // Break apart breakable
+    void BreakObject()
+    {
         foreach (GameObject piece in ObjectPieces)
         {
             piece.GetComponent<Collider>().enabled = true;
 
             Rigidbody rb = piece.AddComponent<Rigidbody>();
-            rb.mass = Mass;
+
+            rb.mass = Mass / ObjectPieces.Count; // Divides overall mass with the total number of pieces
             rb.linearDamping = LinearDampening;
             rb.angularDamping = AngularDampening;
+            rb.interpolation = RigidbodyInterpolation.Interpolate;
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
         }
 
-        Debug.Log($"<color=#00ff00>{this.gameObject.name} has broken.");
+        Debug.Log($"<color=#00ff00><color=#00ff88>{this.gameObject.name}</color> has broken.</color>");
 
         // Ensures that the object behaves as if it is truly broken
         Destroy(GetComponent<Collider>());

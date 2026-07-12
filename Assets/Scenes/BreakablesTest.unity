@@ -700,12 +700,16 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
+      propertyPath: Fragility
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: isReleased
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: BreakagePoint
-      value: 1
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: BreakagePoint.x
@@ -721,11 +725,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: LinearDampening
-      value: 0
+      value: 1.87
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: AngularDampening
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: ObjectPieces.Array.size
@@ -773,7 +777,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.142
+      value: 0.004
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1544,20 +1548,24 @@ PrefabInstance:
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
+      propertyPath: Fragility
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: isReleased
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: BreakagePoint
-      value: 3
+      value: 19.3
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: LinearDampening
-      value: 0
+      value: 1.87
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: AngularDampening
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: ObjectPieces.Array.size
@@ -1605,7 +1613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.14199993
+      value: 0.003999926
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2169,6 +2177,14 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1127816387603289471, guid: 4d4489fc0efc95146b7184c7cbcb6dc8, type: 3}
+      propertyPath: m_LinearDamping
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1127816387603289471, guid: 4d4489fc0efc95146b7184c7cbcb6dc8, type: 3}
+      propertyPath: m_AngularDamping
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1327587858902196993, guid: 4d4489fc0efc95146b7184c7cbcb6dc8, type: 3}
       propertyPath: m_Name
       value: Bat_low
@@ -2316,20 +2332,24 @@ PrefabInstance:
       value: 12.5
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
+      propertyPath: Fragility
+      value: 5.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: isReleased
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: BreakagePoint
-      value: 2
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: LinearDampening
-      value: 0
+      value: 1.87
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: AngularDampening
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: ObjectPieces.Array.size
@@ -2377,7 +2397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.14199993
+      value: 0.003999926
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.z
