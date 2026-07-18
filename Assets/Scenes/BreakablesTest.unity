@@ -661,7 +661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2468424798694886295, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2616498714819801332, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_Enabled
@@ -704,12 +704,16 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
+      propertyPath: Durability
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: isReleased
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: BreakagePoint
-      value: 25
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: BreakagePoint.x
@@ -773,11 +777,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.5642554
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.004
+      value: 0.553
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1552,12 +1556,16 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
+      propertyPath: Durability
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: isReleased
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: BreakagePoint
-      value: 19.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: LinearDampening
@@ -1609,11 +1617,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.2116007
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.003999926
+      value: 0.55299985
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2203,15 +2211,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4950242349317869737, guid: 4d4489fc0efc95146b7184c7cbcb6dc8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.06
+      value: -0.2657
       objectReference: {fileID: 0}
     - target: {fileID: 4950242349317869737, guid: 4d4489fc0efc95146b7184c7cbcb6dc8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4950242349317869737, guid: 4d4489fc0efc95146b7184c7cbcb6dc8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.341
+      value: -0.4243
       objectReference: {fileID: 0}
     - target: {fileID: 4950242349317869737, guid: 4d4489fc0efc95146b7184c7cbcb6dc8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2336,12 +2344,16 @@ PrefabInstance:
       value: 5.64
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
+      propertyPath: Durability
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: isReleased
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: BreakagePoint
-      value: 25
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 4029090358683516647, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: LinearDampening
@@ -2393,11 +2405,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.38792804
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.003999926
+      value: 0.55299985
       objectReference: {fileID: 0}
     - target: {fileID: 5546602545662581963, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_LocalPosition.z
