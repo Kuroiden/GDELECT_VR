@@ -1,7 +1,9 @@
 using System.Collections.Generic;
-using System.Linq;
 using Unity.XR.CoreUtils;
+using Unity.XR.Management;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Transformers;
 
 public class ObjectShatter : MonoBehaviour
 {
@@ -105,46 +107,14 @@ public class ObjectShatter : MonoBehaviour
     }
 
     // Break apart breakable
-    void BreakObject(GameObject PointOfCollision, Rigidbody Collider, Vector3 CollisionImpulse /*Dictionary<float, GameObject> PieceDistance, List<float> SortedDistances*/)
+    void BreakObject(GameObject PointOfCollision, Rigidbody Collider, Vector3 CollisionImpulse)
     {
-        //// Arrange pieces by distance from contact point
-        //List<GameObject> PiecesFromPoint = ArrangeByDistance(PointOfCollision);
-
-        //////ArrangedPieces.Add(PointOfCollision);
-
-        ////PointOfCollision.GetComponent<Collider>().enabled = true;
-
-        ////// Get pieces from closest to farthest from the point of collision
-        ////ArrangedPieces = ObjectPieces;
-
-        ////ArrangedPieces.Remove(PointOfCollision);
-        ////ArrangedPieces.Insert(0, PointOfCollision);
-
-        ////ArrangedPieces.OrderBy(n => Vector3.Distance(n.transform.position, PointOfCollision.transform.position));
-
-        //Debug.Log($"Point of collision: {PointOfCollision.name}; ArrangedPieces[0]: {PiecesFromPoint[0].name}; ArrangedPieces.Count: {PiecesFromPoint.Count}");
-
-        //foreach (GameObject piece in PiecesFromPoint)
-        //{
-        //    //piece.GetComponent<Collider>().enabled = true;
-
-        //    Rigidbody rb = piece.AddComponent<Rigidbody>();
-
-        //    rb.mass = Mass / ObjectPieces.Count; // Divides overall mass with the total number of pieces
-        //    rb.linearDamping = LinearDampening;
-        //    rb.angularDamping = AngularDampening;
-        //    rb.interpolation = RigidbodyInterpolation.Interpolate;
-        //    rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-        //}
-
         float forceApplied = 0f;
 
         if (CollisionImpulse != Vector3.zero) forceApplied = Mathf.Max(CollisionImpulse.x, CollisionImpulse.y, CollisionImpulse.z);
 
         foreach (GameObject piece in ObjectPieces)
         {
-            //piece.GetComponent<Collider>().enabled = true;
-
             Rigidbody rb = piece.AddComponent<Rigidbody>();
 
             rb.mass = Mass / ObjectPieces.Count; // Divides overall mass with the total number of pieces
@@ -152,6 +122,9 @@ public class ObjectShatter : MonoBehaviour
             rb.angularDamping = AngularDampening;
             rb.interpolation = RigidbodyInterpolation.Interpolate;
             rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+
+            piece.AddComponent<XRGrabInteractable>();
+            piece.AddComponent<XRGeneralGrabTransformer>();
         }
 
         foreach (GameObject piece in ObjectPieces)
@@ -164,34 +137,9 @@ public class ObjectShatter : MonoBehaviour
         Debug.Log($"<color=#00ff00><color=#00ff88>{this.gameObject.name}</color> has broken.</color>");
 
         // Ensures that the object behaves as if it is truly broken
+        Destroy(GetComponent<XRGrabInteractable>());
+        Destroy(GetComponent<XRGeneralGrabTransformer>());
         Destroy(GetComponent<Collider>());
         Destroy(GetComponent<Rigidbody>());
     }
-
-    //List<GameObject> ArrangeByDistance(GameObject PointOfCollision)
-    //{
-    //    List<GameObject> ArrangedPieces = new List<GameObject>();
-    //    Dictionary<GameObject, float> PiecesByDistance = new Dictionary<GameObject, float>();
-
-    //    ArrangedPieces.Add(PointOfCollision);
-    //    PiecesByDistance.Add(PointOfCollision, 0f);
-
-    //    foreach (GameObject piece in ObjectPieces)
-    //    {
-    //        if (!PiecesByDistance.ContainsKey(piece))
-    //        {
-    //            PiecesByDistance.Add(piece, Vector3.Distance(PointOfCollision.transform.position, piece.transform.position));
-    //        }
-    //    }
-
-    //    for (int x = 1; x < PiecesByDistance.Count; x++)
-    //    {
-    //        for (int y = 1; x < PiecesByDistance.Count; x++)
-    //        {
-
-    //        }
-    //    }
-
-    //    return ArrangedPieces;
-    //}
 }
