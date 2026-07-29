@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Unity.XR.CoreUtils;
-using Unity.XR.Management;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Transformers;
@@ -13,7 +12,7 @@ public class ObjectShatter : MonoBehaviour
 
     public bool isReleased = false;
     [Tooltip("Weight or density of the whole object")]
-    [SerializeField] [Range(0.1f,25f)] float Mass;
+    [SerializeField] [Range(1f,25f)] float Mass;
     [Tooltip("Ceiling of how much force (velocity) the whole object can take before breaking")]
     [SerializeField] [Range(0.1f, 2.5f)] float BreakagePoint; [Space]
     [Tooltip("How durable the whole object is (0.1 = Breaks on contact; 10 = Durable)")]
@@ -82,11 +81,14 @@ public class ObjectShatter : MonoBehaviour
         GameObject PointOfCollision = pieces[NearestPoint];
 
         #region Debug
-        if (ObjectVelocity == Vector3.zero)
-            Debug.Log($"<color=#ffff00><color=#00ffff>{collision.collider.name}</color> collided with <color=#00ff88>{this.gameObject.name}</color> (Velocity: {CollisionImpulse})</color>");
-        else
-            Debug.Log($"<color=#ff8800><color=#00ff88>{this.gameObject.name}</color> collided with <color=#00ffff>{collision.collider.name}</color> (Velocity: {CollisionImpulse})</color>");
-        
+        if (CollisionImpulse != Vector3.zero)
+        {
+            if (ObjectVelocity == Vector3.zero)
+                Debug.Log($"<color=#ffff00><color=#00ffff>{collision.collider.name}</color> collided with <color=#00ff88>{this.gameObject.name}</color> (Force: {CollisionImpulse})</color>");
+            else
+                Debug.Log($"<color=#ff8800><color=#00ff88>{this.gameObject.name}</color> collided with <color=#00ffff>{collision.collider.name}</color> (Force: {CollisionImpulse})</color>");
+        }
+
         if (CollisionContact.point != null) Debug.Log($"Contact point detected. Contact found at <color=#00ff88>{PointOfCollision.name}</color>");
         #endregion
 
@@ -109,9 +111,17 @@ public class ObjectShatter : MonoBehaviour
     // Break apart breakable
     void BreakObject(GameObject PointOfCollision, Rigidbody Collider, Vector3 CollisionImpulse)
     {
+        if (PointOfCollision == null) return;
+
         float forceApplied = 0f;
 
         if (CollisionImpulse != Vector3.zero) forceApplied = Mathf.Max(CollisionImpulse.x, CollisionImpulse.y, CollisionImpulse.z);
+
+        // Ensures that the object behaves as if it is truly broken
+        Destroy(GetComponent<XRGrabInteractable>());
+        Destroy(GetComponent<XRGeneralGrabTransformer>());
+        Destroy(GetComponent<Collider>());
+        Destroy(GetComponent<Rigidbody>());
 
         foreach (GameObject piece in ObjectPieces)
         {
@@ -130,16 +140,13 @@ public class ObjectShatter : MonoBehaviour
         foreach (GameObject piece in ObjectPieces)
         {
             Rigidbody rb = piece.GetComponent<Rigidbody>();
-            rb.AddExplosionForce(forceApplied / Durability, PointOfCollision.transform.position, 1f);
-        }
 
+            float reflectedForce = forceApplied / (Durability * rb.mass);
+            rb.AddExplosionForce(reflectedForce, PointOfCollision.transform.position, 1f);
+        }
 
         Debug.Log($"<color=#00ff00><color=#00ff88>{this.gameObject.name}</color> has broken.</color>");
 
-        // Ensures that the object behaves as if it is truly broken
-        Destroy(GetComponent<XRGrabInteractable>());
-        Destroy(GetComponent<XRGeneralGrabTransformer>());
-        Destroy(GetComponent<Collider>());
-        Destroy(GetComponent<Rigidbody>());
+        
     }
 }

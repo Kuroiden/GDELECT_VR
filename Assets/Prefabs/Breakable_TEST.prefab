@@ -301,7 +301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObjectShatter
   CurrBreakagePoint: 0
   isReleased: 0
-  Mass: 0.1
+  Mass: 1
   BreakagePoint: 0.1
   Durability: 0.1
   ObjectPieces: []
