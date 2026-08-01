@@ -155,8 +155,6 @@ public class ObjectShatter : MonoBehaviour
             piece.AddComponent<XRGrabInteractable>();
             piece.AddComponent<XRGeneralGrabTransformer>();
 
-            float reflectedForce = forceApplied / (Durability * rb.mass);
-            rb.AddExplosionForce(reflectedForce, PointOfCollision.transform.position, 1f);
 
             //if (piece.transform.childCount > 0)
             //{
@@ -170,13 +168,13 @@ public class ObjectShatter : MonoBehaviour
 
         //CreateColliders(ObjectPieces, forceApplied, PointOfCollision);
 
-        //foreach (GameObject piece in ObjectPieces)
-        //{
-        //    Rigidbody rb = piece.GetComponent<Rigidbody>();
+        foreach (GameObject piece in ObjectPieces)
+        {
+            Rigidbody rb = piece.GetComponent<Rigidbody>();
 
-        //    float reflectedForce = forceApplied / (Durability * rb.mass);
-        //    rb.AddExplosionForce(reflectedForce, PointOfCollision.transform.position, 1f);
-        //}
+            float reflectedForce = forceApplied / (Durability * rb.mass);
+            rb.AddExplosionForce(reflectedForce, PointOfCollision.transform.position, 1f);
+        }
 
         // Ensures that the object behaves as if it is truly broken
         Destroy(GetComponent<XRGrabInteractable>());
