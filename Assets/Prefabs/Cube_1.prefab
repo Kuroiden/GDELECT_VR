@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 29850f1b8d2c18e47b2dd61f44f28ff2, type: 2}
     - target: {fileID: 139021757839951463, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: m_Name
-      value: Breakable_TEST (12) Variant
+      value: Cube_1
       objectReference: {fileID: 0}
     - target: {fileID: 403755541744686794, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -345,7 +345,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 139021757839951463, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
-      insertIndex: -1
+      insertIndex: 3
       addedObject: {fileID: 7217233331775465369}
   m_SourcePrefab: {fileID: 100100000, guid: 89f38dae11a1b2a4b94d7647f11ea53d, type: 3}
 --- !u!1 &1885775879640474995 stripped
@@ -375,7 +375,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0

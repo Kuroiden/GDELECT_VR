@@ -42,6 +42,7 @@ public class ObjectShatter : MonoBehaviour
         MainRB.mass = Mass;
         MainRB.interpolation = RigidbodyInterpolation.Interpolate;
         MainRB.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+        MainRB.useGravity = true;
 
         if (ObjectPieces.Count == 0)
         {
@@ -63,8 +64,8 @@ public class ObjectShatter : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (itemSpawned) return;
         if (ObjectPieces[0].GetComponent<Rigidbody>() != null) return;
+        if (itemSpawned) return;
 
         Vector3 CollisionImpulse = collision.impulse;
 
@@ -88,7 +89,6 @@ public class ObjectShatter : MonoBehaviour
 
         if (CollisionImpulse != Vector3.zero && collisionSFX.Length > 0)
             PlaySFX(CollisionImpulse);
-
 
         #region Debug
         if (CollisionImpulse != Vector3.zero)
@@ -139,46 +139,52 @@ public class ObjectShatter : MonoBehaviour
 
         if (CollisionImpulse != Vector3.zero) forceApplied = Mathf.Max(CollisionImpulse.x, CollisionImpulse.y, CollisionImpulse.z);
 
+        foreach (GameObject piece in ObjectPieces)
+        {
+            if (piece.GetComponent<MeshCollider>() == null) continue;
+
+            Rigidbody rb = piece.AddComponent<Rigidbody>();
+
+            rb.mass = Mass / ObjectPieces.Count; // Divides overall mass with the total number of pieces
+            rb.linearDamping = LinearDampening;
+            rb.angularDamping = AngularDampening;
+            rb.interpolation = RigidbodyInterpolation.Interpolate;
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+            rb.useGravity = true;
+
+            piece.AddComponent<XRGrabInteractable>();
+            piece.AddComponent<XRGeneralGrabTransformer>();
+
+            float reflectedForce = forceApplied / (Durability * rb.mass);
+            rb.AddExplosionForce(reflectedForce, PointOfCollision.transform.position, 1f);
+
+            //if (piece.transform.childCount > 0)
+            //{
+            //    List<GameObject> piecePieces = new List<GameObject>();
+
+            //    for (int i = 0; i < piece.transform.childCount; i++) piecePieces.Add(piece.transform.GetChild(i).gameObject);
+
+            //    CreateColliders(piecePieces, forceApplied, PointOfCollision);
+            //}
+        }
+
+        //CreateColliders(ObjectPieces, forceApplied, PointOfCollision);
+
+        //foreach (GameObject piece in ObjectPieces)
+        //{
+        //    Rigidbody rb = piece.GetComponent<Rigidbody>();
+
+        //    float reflectedForce = forceApplied / (Durability * rb.mass);
+        //    rb.AddExplosionForce(reflectedForce, PointOfCollision.transform.position, 1f);
+        //}
+
         // Ensures that the object behaves as if it is truly broken
         Destroy(GetComponent<XRGrabInteractable>());
         Destroy(GetComponent<XRGeneralGrabTransformer>());
         Destroy(GetComponent<Collider>());
         Destroy(GetComponent<Rigidbody>());
 
-        AttachRigidBody(ObjectPieces, forceApplied, PointOfCollision);
-        CreateColliders(ObjectPieces, forceApplied, PointOfCollision);
-
         Debug.Log($"<color=#00ff00><color=#00ff88>{this.gameObject.name}</color> has broken.</color>");
-    }
-
-    void AttachRigidBody(List<GameObject> ParentObj, float forceApplied, GameObject PointOfCollision)
-    {
-        foreach (GameObject piece in ParentObj)
-        {
-            if (piece.GetComponent<MeshCollider>() == null) continue;
-
-            if (piece.transform.childCount > 0)
-            {
-                List<GameObject> piecePieces = new List<GameObject>();
-
-                for (int i = 0; i < piece.transform.childCount; i++) piecePieces.Add(piece.transform.GetChild(i).gameObject);
-
-                CreateColliders(piecePieces, forceApplied, PointOfCollision);
-            }
-            else
-            {
-                Rigidbody rb = piece.AddComponent<Rigidbody>();
-
-                rb.mass = Mass / ObjectPieces.Count; // Divides overall mass with the total number of pieces
-                rb.linearDamping = LinearDampening;
-                rb.angularDamping = AngularDampening;
-                rb.interpolation = RigidbodyInterpolation.Interpolate;
-                rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-
-                XRGrabInteractable grab = piece.AddComponent<XRGrabInteractable>();
-                piece.AddComponent<XRGeneralGrabTransformer>();
-            }
-        }
     }
 
     void CreateColliders(List<GameObject> ParentObj, float forceApplied, GameObject PointOfCollision)
