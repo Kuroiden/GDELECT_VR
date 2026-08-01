@@ -38,10 +38,7 @@ public class ObjectShatter : MonoBehaviour
 
         if (ObjectPieces.Count == 0)
         {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                ObjectPieces.Add(transform.GetChild(i).gameObject);
-            }
+            for (int i = 0; i < transform.childCount; i++) ObjectPieces.Add(transform.GetChild(i).gameObject);
         }
 
         Debug.Log($"Pieces found in <color=#00ff88>{this.gameObject.name}</color>: {ObjectPieces.Count}");
@@ -123,8 +120,18 @@ public class ObjectShatter : MonoBehaviour
         Destroy(GetComponent<Collider>());
         Destroy(GetComponent<Rigidbody>());
 
-        foreach (GameObject piece in ObjectPieces)
+        AttachRigidBody(ObjectPieces);
+        CreateColliders(ObjectPieces, forceApplied, PointOfCollision);
+
+        Debug.Log($"<color=#00ff00><color=#00ff88>{this.gameObject.name}</color> has broken.</color>");
+    }
+
+    void AttachRigidBody(List<GameObject> ParentObj)
+    {
+        foreach (GameObject piece in ParentObj)
         {
+            if (piece.GetComponent<MeshCollider>() == null) continue;
+
             Rigidbody rb = piece.AddComponent<Rigidbody>();
 
             rb.mass = Mass / ObjectPieces.Count; // Divides overall mass with the total number of pieces
@@ -136,17 +143,25 @@ public class ObjectShatter : MonoBehaviour
             piece.AddComponent<XRGrabInteractable>();
             piece.AddComponent<XRGeneralGrabTransformer>();
         }
+    }
 
-        foreach (GameObject piece in ObjectPieces)
+    void CreateColliders(List<GameObject> ParentObj, float forceApplied, GameObject PointOfCollision)
+    {
+        foreach (GameObject piece in ParentObj)
         {
             Rigidbody rb = piece.GetComponent<Rigidbody>();
 
             float reflectedForce = forceApplied / (Durability * rb.mass);
             rb.AddExplosionForce(reflectedForce, PointOfCollision.transform.position, 1f);
+
+            if (piece.transform.childCount > 0)
+            {
+                List<GameObject> piecePieces = new List<GameObject>();
+
+                for (int i = 0; i < piece.transform.childCount; i++) piecePieces.Add(piece.transform.GetChild(i).gameObject);
+
+                CreateColliders(piecePieces, forceApplied, PointOfCollision);
+            }
         }
-
-        Debug.Log($"<color=#00ff00><color=#00ff88>{this.gameObject.name}</color> has broken.</color>");
-
-        
     }
 }

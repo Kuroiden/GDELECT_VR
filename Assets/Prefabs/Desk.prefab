@@ -525,14 +525,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85611beae8dc5e743bf4d93498da242e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectShatter
-  CurrBreakagePoint: 6.7
+  CurrBreakagePoint: 0
   isReleased: 0
-  Mass: 3.6
-  BreakagePoint: 0.76
-  Durability: 5.31
+  Mass: 5
+  BreakagePoint: 1.12
+  Durability: 2.84
   ObjectPieces: []
-  LinearDampening: 0
-  AngularDampening: 0
+  LinearDampening: 14.4
+  AngularDampening: 8.2
 --- !u!1 &191367247756693813
 GameObject:
   m_ObjectHideFlags: 0
@@ -2361,7 +2361,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
@@ -2377,14 +2377,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85611beae8dc5e743bf4d93498da242e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectShatter
-  CurrBreakagePoint: 6.7
+  CurrBreakagePoint: 0
   isReleased: 0
-  Mass: 3.6
-  BreakagePoint: 0.76
-  Durability: 5.31
+  Mass: 25
+  BreakagePoint: 2.23
+  Durability: 10
   ObjectPieces: []
-  LinearDampening: 0
-  AngularDampening: 0
+  LinearDampening: 23.4
+  AngularDampening: 30.3
 --- !u!1 &1179282322095585022
 GameObject:
   m_ObjectHideFlags: 0
@@ -2761,14 +2761,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85611beae8dc5e743bf4d93498da242e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectShatter
-  CurrBreakagePoint: 6.7
+  CurrBreakagePoint: 0
   isReleased: 0
-  Mass: 3.6
-  BreakagePoint: 0.76
-  Durability: 5.31
+  Mass: 4.2
+  BreakagePoint: 0.7
+  Durability: 3.26
   ObjectPieces: []
-  LinearDampening: 0
-  AngularDampening: 0
+  LinearDampening: 11.2
+  AngularDampening: 13.6
 --- !u!1 &1238718938160770098
 GameObject:
   m_ObjectHideFlags: 0
@@ -11276,6 +11276,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4665175246197891415}
+  - component: {fileID: 2252091578753102629}
   m_Layer: 0
   m_Name: Keyboard_Keys_low
   m_TagString: Untagged
@@ -11407,6 +11408,28 @@ Transform:
   - {fileID: 1916388199217770614}
   m_Father: {fileID: 6059244172168164162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &2252091578753102629
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4849813346946695463}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &4877972596056884657
 GameObject:
   m_ObjectHideFlags: 0
@@ -14382,14 +14405,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85611beae8dc5e743bf4d93498da242e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectShatter
-  CurrBreakagePoint: 6.7
+  CurrBreakagePoint: 0
   isReleased: 0
-  Mass: 3.6
-  BreakagePoint: 0.76
-  Durability: 5.31
+  Mass: 10
+  BreakagePoint: 0.61
+  Durability: 3.15
   ObjectPieces: []
-  LinearDampening: 0
-  AngularDampening: 0
+  LinearDampening: 29.3
+  AngularDampening: 13.3
 --- !u!1 &6357553958540491007
 GameObject:
   m_ObjectHideFlags: 0
@@ -16203,14 +16226,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85611beae8dc5e743bf4d93498da242e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectShatter
-  CurrBreakagePoint: 6.7
+  CurrBreakagePoint: 0
   isReleased: 0
-  Mass: 3.6
+  Mass: 15.4
   BreakagePoint: 0.76
   Durability: 5.31
   ObjectPieces: []
-  LinearDampening: 0
-  AngularDampening: 0
+  LinearDampening: 22.3
+  AngularDampening: 46.8
 --- !u!1 &7183341113699393593
 GameObject:
   m_ObjectHideFlags: 0
@@ -18678,9 +18701,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 0
   m_CollisionDetection: 3
 --- !u!114 &7364196626732928490
 MonoBehaviour:
@@ -18694,14 +18717,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85611beae8dc5e743bf4d93498da242e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectShatter
-  CurrBreakagePoint: 6.7
+  CurrBreakagePoint: 0
   isReleased: 0
-  Mass: 3.6
-  BreakagePoint: 0.76
-  Durability: 5.31
+  Mass: 22.8
+  BreakagePoint: 0.89
+  Durability: 7.74
   ObjectPieces: []
-  LinearDampening: 0
-  AngularDampening: 0
+  LinearDampening: 23.9
+  AngularDampening: 28.2
 --- !u!1 &8330923618477343069
 GameObject:
   m_ObjectHideFlags: 0
