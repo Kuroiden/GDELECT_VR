@@ -1,22 +1,28 @@
 using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Transformers;
 
+[RequireComponent(typeof(AudioSource))]
+
 public class ObjectShatter : MonoBehaviour
 {
+    AudioSource SoundSource;
     Rigidbody MainRB;
     Vector3 ObjectVelocity;
     public float CurrBreakagePoint = 0f;
 
-    public bool isReleased = false;
+    bool itemSpawned = true;
+
     [Tooltip("Weight or density of the whole object")]
     [SerializeField] [Range(1f,25f)] float Mass;
     [Tooltip("Ceiling of how much force (velocity) the whole object can take before breaking")]
     [SerializeField] [Range(0.1f, 2.5f)] float BreakagePoint; [Space]
     [Tooltip("How durable the whole object is (0.1 = Breaks on contact; 10 = Durable)")]
     [SerializeField] [Range(0.1f, 10f)] float Durability; [Space]
+    [SerializeField] AudioClip[] collisionSFX;
 
     [SerializeField] List<GameObject> ObjectPieces;
 
@@ -29,6 +35,7 @@ public class ObjectShatter : MonoBehaviour
     void Awake()
     {
         CurrBreakagePoint = BreakagePoint;
+        SoundSource = GetComponent<AudioSource>();
         MainRB = GetComponent<Rigidbody>();
 
         // Automatically adjusts rigidbody parameters
@@ -49,12 +56,14 @@ public class ObjectShatter : MonoBehaviour
         if (MainRB != null)
         {
             ObjectVelocity = MainRB.linearVelocity.Abs();
-            MainRB.useGravity = isReleased;
+
+            if (itemSpawned) itemSpawned = ObjectVelocity != Vector3.zero;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (itemSpawned) return;
         if (ObjectPieces[0].GetComponent<Rigidbody>() != null) return;
 
         Vector3 CollisionImpulse = collision.impulse;
@@ -77,6 +86,10 @@ public class ObjectShatter : MonoBehaviour
 
         GameObject PointOfCollision = pieces[NearestPoint];
 
+        if (CollisionImpulse != Vector3.zero && collisionSFX.Length > 0)
+            PlaySFX(CollisionImpulse);
+
+
         #region Debug
         if (CollisionImpulse != Vector3.zero)
         {
@@ -92,6 +105,18 @@ public class ObjectShatter : MonoBehaviour
         // Check if breakble is dropped high or thrown hard enough
         if (CollisionImpulse.x <= CurrBreakagePoint && CollisionImpulse.y <= CurrBreakagePoint && CollisionImpulse.z <= CurrBreakagePoint) LowerBreakagePoint(CollisionImpulse);
         else BreakObject(PointOfCollision, ColliderObj.GetComponent<Rigidbody>(), CollisionImpulse);
+    }
+
+    void PlaySFX(Vector3 Velocity)
+    {
+        float forceApplied = 0f;
+
+        if (Velocity != Vector3.zero) forceApplied = Mathf.Max(Velocity.x, Velocity.y, Velocity.z);
+
+        int audioClip = collisionSFX.Length > 1 ? Random.Range(0, collisionSFX.Length) : 0;
+        SoundSource.clip = collisionSFX[audioClip];
+        SoundSource.volume = Mathf.Clamp(forceApplied / (Durability * Mass), 0f, 100f);
+        SoundSource.Play();
     }
 
     // Lower object breakage point with every collision
@@ -120,28 +145,39 @@ public class ObjectShatter : MonoBehaviour
         Destroy(GetComponent<Collider>());
         Destroy(GetComponent<Rigidbody>());
 
-        AttachRigidBody(ObjectPieces);
+        AttachRigidBody(ObjectPieces, forceApplied, PointOfCollision);
         CreateColliders(ObjectPieces, forceApplied, PointOfCollision);
 
         Debug.Log($"<color=#00ff00><color=#00ff88>{this.gameObject.name}</color> has broken.</color>");
     }
 
-    void AttachRigidBody(List<GameObject> ParentObj)
+    void AttachRigidBody(List<GameObject> ParentObj, float forceApplied, GameObject PointOfCollision)
     {
         foreach (GameObject piece in ParentObj)
         {
             if (piece.GetComponent<MeshCollider>() == null) continue;
 
-            Rigidbody rb = piece.AddComponent<Rigidbody>();
+            if (piece.transform.childCount > 0)
+            {
+                List<GameObject> piecePieces = new List<GameObject>();
 
-            rb.mass = Mass / ObjectPieces.Count; // Divides overall mass with the total number of pieces
-            rb.linearDamping = LinearDampening;
-            rb.angularDamping = AngularDampening;
-            rb.interpolation = RigidbodyInterpolation.Interpolate;
-            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+                for (int i = 0; i < piece.transform.childCount; i++) piecePieces.Add(piece.transform.GetChild(i).gameObject);
 
-            piece.AddComponent<XRGrabInteractable>();
-            piece.AddComponent<XRGeneralGrabTransformer>();
+                CreateColliders(piecePieces, forceApplied, PointOfCollision);
+            }
+            else
+            {
+                Rigidbody rb = piece.AddComponent<Rigidbody>();
+
+                rb.mass = Mass / ObjectPieces.Count; // Divides overall mass with the total number of pieces
+                rb.linearDamping = LinearDampening;
+                rb.angularDamping = AngularDampening;
+                rb.interpolation = RigidbodyInterpolation.Interpolate;
+                rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+
+                XRGrabInteractable grab = piece.AddComponent<XRGrabInteractable>();
+                piece.AddComponent<XRGeneralGrabTransformer>();
+            }
         }
     }
 
@@ -153,15 +189,6 @@ public class ObjectShatter : MonoBehaviour
 
             float reflectedForce = forceApplied / (Durability * rb.mass);
             rb.AddExplosionForce(reflectedForce, PointOfCollision.transform.position, 1f);
-
-            if (piece.transform.childCount > 0)
-            {
-                List<GameObject> piecePieces = new List<GameObject>();
-
-                for (int i = 0; i < piece.transform.childCount; i++) piecePieces.Add(piece.transform.GetChild(i).gameObject);
-
-                CreateColliders(piecePieces, forceApplied, PointOfCollision);
-            }
         }
     }
 }
