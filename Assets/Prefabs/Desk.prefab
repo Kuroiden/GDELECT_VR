@@ -85,6 +85,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2375452545652372470, guid: 2e8531e20fde5b94e8d460242a840bf0, type: 3}
+      propertyPath: m_UseDynamicAttach
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6599794517389702277, guid: 2e8531e20fde5b94e8d460242a840bf0, type: 3}
       propertyPath: m_Name
       value: Chair_Combined_low
@@ -402,6 +406,10 @@ PrefabInstance:
     - target: {fileID: 5328731583860423266, guid: 2e85d20279e681d4092faff56049db19, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8192159969064616526, guid: 2e85d20279e681d4092faff56049db19, type: 3}
+      propertyPath: m_UseDynamicAttach
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
